@@ -1,6 +1,7 @@
 = Version history =
 x.x:
 
+- fixed: filled README.txt
 - fixed: some css issues
 - changed: handling of allowed users
 
