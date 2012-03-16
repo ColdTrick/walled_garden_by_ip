@@ -2,6 +2,7 @@
 x.x:
 
 - fixed: some css issues
+- changed: handling of allowed users
 
 1.0:
 

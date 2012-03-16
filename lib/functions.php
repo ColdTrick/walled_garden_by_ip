@@ -10,8 +10,27 @@
 	 * 
 	 */
 	function walled_garden_by_ip_gatekeeper(){
-		$result = false;
 		$forward_url = "pg/login";
+		
+		// User is not allowed access, so let him/her login
+		if(!walled_garden_by_ip_validate_access()){
+			if(!isset($_SESSION["last_forward_from"])){
+				$_SESSION["last_forward_from"] = current_page_url();
+			}
+			
+			// display a message to the user why not allowed
+			if(!empty($user)){
+				register_error(elgg_echo("walled_garden_by_ip:gatekeeper:user"));
+			} else {
+				register_error(elgg_echo("loggedinrequired"));
+			}
+			
+			forward($forward_url);
+		}
+	}
+	
+	function walled_garden_by_ip_validate_access(){
+		$result = false;
 		
 		$site = get_config("site");
 		
@@ -27,37 +46,27 @@
 		
 		// check if the user is trying to access an external page
 		if(!$result){
-			$result = defined("externalpage");
+// 			$result = defined("externalpage");
 		}
 		
 		// some pages are not registered as external but should be accessable
 		if(!$result){
 			$allowed_urls = array(
 				"/account/forgotten_password.php",
+				"/pg/resetpassword",
 				"/pg/register",
-				"/pg/register/"
+				"/pg/register/",
+				"/_css/css.css",
+				"/_css/js.php",
+				"/pg/login"
 			);
-			
+				
 			$url_path = parse_url(current_page_url(), PHP_URL_PATH);
-			
+				
 			$result = in_array($url_path, $allowed_urls);
 		}
 		
-		// User is not allowed access, so let him/her login
-		if(!$result){
-			if(!isset($_SESSION["last_forward_from"])){
-				$_SESSION["last_forward_from"] = current_page_url();
-			}
-			
-			// display a message to the user why not allowed
-			if(!empty($user)){
-				register_error(elgg_echo("walled_garden_by_ip:gatekeeper:user"));
-			} else {
-				register_error(elgg_echo("loggedinrequired"));
-			}
-			
-			forward($forward_url);
-		}
+		return $result;
 	}
 	
 	function walled_garden_by_ip_validate_ip(){
