@@ -1,4 +1,8 @@
 = Version history =
+x.x:
+
+- fixed: some css issues
+
 1.0:
 
 - initial version
