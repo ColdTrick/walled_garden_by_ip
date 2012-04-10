@@ -1,6 +1,10 @@
 = Version history =
 x.x:
 
+- changed: Elgg 1.8 support
+
+1.0.1 (2012-04-10):
+
 - fixed: filled README.txt
 - fixed: some css issues
 - changed: handling of allowed users

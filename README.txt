@@ -13,6 +13,6 @@ The development of this plugin was funded by the Dutch ministry of Justice
 If enabled but not configured this plugin enables a walled garden to prevent access to your site for non loggedin users.
 
 It can be configured to allow persons from a (range) of IP address to access the site without having to login. 
-This can be done under Administration -> Tool administration -> walled_garden_by_ip -> Settings.
+This can be done under Administration -> Settings -> Walled Garden By IP.
 
 == 3. ToDo ==

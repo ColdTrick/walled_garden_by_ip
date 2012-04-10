@@ -10,8 +10,6 @@
 	 * 
 	 */
 	function walled_garden_by_ip_gatekeeper(){
-		$forward_url = "pg/login";
-		
 		// User is not allowed access, so let him/her login
 		if(!walled_garden_by_ip_validate_access()){
 			if(!isset($_SESSION["last_forward_from"])){
@@ -19,23 +17,23 @@
 			}
 			
 			// display a message to the user why not allowed
-			if(!empty($user)){
+			if(elgg_is_logged_in()){
 				register_error(elgg_echo("walled_garden_by_ip:gatekeeper:user"));
 			} else {
 				register_error(elgg_echo("loggedinrequired"));
 			}
 			
-			forward($forward_url);
+			forward("login");
 		}
 	}
 	
 	function walled_garden_by_ip_validate_access(){
 		$result = false;
 		
-		$site = get_config("site");
+		$site = elgg_get_site_entity();
 		
 		// check if the user is logged in and member of the site
-		if(($user = get_loggedin_user()) && !empty($site) && ($site instanceof ElggSite)){
+		if(($user = elgg_get_logged_in_user_entity()) && !empty($site) && elgg_instanceof($site, "site", null, "ElggSite")){
 			$result = check_entity_relationship($user->getGUID(), "member_of_site", $site->getGUID());
 		}
 		
@@ -44,26 +42,16 @@
 			$result = walled_garden_by_ip_validate_ip();
 		}
 		
-		// check if the user is trying to access an external page
+		// check if the user is trying to access a public page
 		if(!$result){
-// 			$result = defined("externalpage");
-		}
-		
-		// some pages are not registered as external but should be accessable
-		if(!$result){
-			$allowed_urls = array(
-				"/account/forgotten_password.php",
-				"/pg/resetpassword",
-				"/pg/register",
-				"/pg/register/",
-				"/_css/css.css",
-				"/_css/js.php",
-				"/pg/login"
-			);
-				
-			$url_path = parse_url(current_page_url(), PHP_URL_PATH);
-				
-			$result = in_array($url_path, $allowed_urls);
+			$result = $site->isPublicPage();
+			
+			// extra check
+			if($result && !get_config("walled_garden")){
+				if(elgg_in_context("main")){
+					$result = false;
+				}
+			}
 		}
 		
 		return $result;
@@ -73,9 +61,9 @@
 		$result = false;
 		
 		$client_ip = $_SERVER["REMOTE_ADDR"];
-		$client_ip = trigger_plugin_hook("remote_address", "system", array("remote_address" => $client_ip), $client_ip);
+		$client_ip = elgg_trigger_plugin_hook("remote_address", "system", array("remote_address" => $client_ip), $client_ip);
 		
-		$allowed_ip = get_plugin_setting("allowed_ip", "walled_garden_by_ip");
+		$allowed_ip = elgg_get_plugin_setting("allowed_ip", "walled_garden_by_ip");
 		
 		if(!empty($client_ip) && !empty($allowed_ip)){
 			$allowed_ip = explode(PHP_EOL, $allowed_ip);
