@@ -47,7 +47,7 @@
 			$result = $site->isPublicPage();
 			
 			// extra check
-			if($result && !get_config("walled_garden")){
+			if($result && !elgg_get_config("walled_garden")){
 				if(elgg_in_context("main")){
 					$result = false;
 				}
