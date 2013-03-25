@@ -27,4 +27,4 @@ This can be done under Administration -> Settings -> Walled Garden By IP.
 ----------
 We use the IP check library by Paul Gregg ([Source][1])
 
-[1] http://www.pgregg.com/projects/php/ip_in_range/
+[1]: http://www.pgregg.com/projects/php/ip_in_range/
