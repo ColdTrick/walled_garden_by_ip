@@ -68,7 +68,8 @@
 		if(!empty($client_ip) && !empty($allowed_ip)){
 			$allowed_ip = explode(PHP_EOL, $allowed_ip);
 			
-			require_once(dirname(dirname(__FILE__)) . "/vendors/pgregg/ip_check.php");
+			// load validation library
+			elgg_load_library("pgregg.ipcheck");
 			
 			foreach($allowed_ip as $check_ip){
 				if(!empty($check_ip)){
