@@ -7,6 +7,7 @@ Content
 1. Funding
 2. Features
 3. ToDo
+4. Credits
 
 1. Funding
 ----------
@@ -20,4 +21,10 @@ It can be configured to allow persons from a (range) of IP address to access the
 This can be done under Administration -> Settings -> Walled Garden By IP.
 
 3. ToDo
--------s
+-------
+
+4. Credits
+----------
+We use the IP check library by Paul Gregg ([Source][1])
+
+[1] http://www.pgregg.com/projects/php/ip_in_range/
