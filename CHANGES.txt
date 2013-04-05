@@ -1,7 +1,13 @@
 = Version history =
-x.x:
+1.1 (2013-04-05):
 
+- added: some credits
 - changed: Elgg 1.8 support
+- changed: better use of Elgg core functions
+- changed: vendor file now loads as an Elgg library
+- changed: README.txt to README.md for GitHub
+- changed: required Elgg version now 1.8.9
+- fixed: wrong link
 
 1.0.1 (2012-04-10):
 
