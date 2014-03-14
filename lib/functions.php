@@ -30,6 +30,11 @@
 	function walled_garden_by_ip_validate_access(){
 		$result = false;
 		
+		if (PHP_SAPI == 'cli') {
+			// do not check in cli mode
+			return true;
+		}
+		
 		$site = elgg_get_site_entity();
 		
 		// check if the user is logged in and member of the site
